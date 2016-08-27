@@ -1,0 +1,27 @@
+1、命名规则
+类名：单词首字母大写，model加“model”后缀，view类加"view"或者"panel"后缀，例如 任务model为TaskModel，任务主界面TaskPanel，任务项TaskItemView等
+类的成员变量：以"m_"为前缀，第一个单词首字母小写，后面的单词首字母大写，函数变量加"handler"后缀
+局部变量：小驼峰命名法，即第一个单词首字母小写，后面的单词首字母依次大写
+模块名：单词都小写，单词之间"_"隔开
+全局变量：以"g_"开头，第一个单词首字母小写，后面的单词首字母大写
+常量：字母都大写，单词之间"_"连接
+网络事件函数：请求服务器函数以"on"开头，以"Request"结尾，中间的单词首字母大写；服务器回调函数以"on"开头，以"Reply"结尾，中间单词首字母大写，比如请求服务器任务数据 onGetTaskInfoRequest , onGetTaskInfoReply。
+touch事件函数：以"on"开头，以"TouchCallback" 或者以 "TouchHandler"结尾(函数以变量的形式存在)，比如任务领奖 onGetRewardTouchCallback, local onGetRewardTouchHandler 
+消息通知函数：以"on"开头，以"Notify"结尾，比如通知观察者更新任务表现 onUpdateTaskNotify
+
+2、MV使用规则
+基本采用model和view的结构，model主要负责数据的管理和逻辑的实现，view主要负责逻辑的表现和刷新。
+以task模块来说，在游戏初始化的时候创建实例，并以player成员变量的方式存在，然后请求服务器加载数据初始化task模块。task模块数据有变化要发送消息通知观察者处理消息。
+需要处理task模块发来的消息的view可以以观察者的身份注册到task模块，也可以向全局的消息处理器注册。
+
+3、ui管理器的实现要求
+（1）对注册的界面进行打开、缓存、移除、返回。
+（2）需要实现接口openPanel(int panelId,int tabId,int itemId)，传递面板ID，标签ID，项ID便可以打开某一注册主界面的某一个标签的某一项
+
+4、主界面与新手指引
+（1）需要指引的panel需要继承GuidePanel，必须实现getGuideNodeByGuideId(guideId)函数和指引表现
+（2）指引逻辑需要根据配置表读取指引数据打开指定界面，获取指引节点，显示指引表现，更新指引逻辑
+（3）指引任务的判断，GuidePanel在打开的时候需要发送消息通知指引逻辑，触发指引
+
+
+
